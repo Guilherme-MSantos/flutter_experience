@@ -1,3 +1,4 @@
+import 'package:cinebox/ui/Home/home_screen.dart';
 import 'package:cinebox/ui/Login/login_screen.dart';
 import 'package:cinebox/ui/core/themes/theme.dart';
 import 'package:cinebox/ui/splash/splash_screen.dart';
@@ -14,6 +15,7 @@ class CineboxMainApp extends StatelessWidget {
      routes: {
         '/': (_)=> SplashScreen() ,
        '/login': (_)=> LoginScreen(),
+       '/home':(_)=> HomeScreen(),
      },
     );
   }

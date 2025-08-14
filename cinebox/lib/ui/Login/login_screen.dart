@@ -2,6 +2,7 @@ import 'package:cinebox/ui/Login/comands/login_with_google_command.dart';
 import 'package:cinebox/ui/Login/login_view_model.dart';
 import 'package:cinebox/ui/Login/widgets/sign_in_google_button.dart';
 import 'package:cinebox/ui/core/themes/resource.dart';
+import 'package:cinebox/ui/core/widgets/loader_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,11 +14,20 @@ class LoginScreen extends ConsumerStatefulWidget {
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen>
+    with LoaderAndMessage {
   @override
   Widget build(BuildContext context) {
-
-
+    ref.listen(loginWithGoogleCommandProvider, (_, state) {
+      state.whenOrNull(
+        data: (_) {
+          Navigator.pushReplacementNamed(context, '/home') ;
+        },
+        error: (error, stackTrace) {
+          showErrorSnackBar('Erro ao efetuar login');
+        },
+      );
+    });
     return Scaffold(
       body: Stack(
         children: [
@@ -41,8 +51,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Consumer(
-                    builder: (context, ref, child){
-                      final state = ref.watch(loginWithGoogleCommandProvider) ;
+                    builder: (context, ref, child) {
+                      final state = ref.watch(loginWithGoogleCommandProvider);
                       return SignInGoogleButton(
                         isLoading: state.isLoading,
                         onPressed: () {
