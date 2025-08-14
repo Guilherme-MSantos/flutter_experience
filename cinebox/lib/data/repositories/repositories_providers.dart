@@ -8,6 +8,9 @@ part 'repositories_providers.g.dart';
 
 @riverpod
 AuthRepository authRepository(Ref ref) {
-  return AuthRepositoryImpl(localStorageService: ref.read(localStorageServiceProvider),
-      googleSignInService: ref.read(googleSigninServiceProvider)) ;
+  return AuthRepositoryImpl(
+    localStorageService: ref.read(localStorageServiceProvider),
+    googleSignInService: ref.read(googleSigninServiceProvider),
+    authService: ref.read(authServiceProvider) ,
+  );
 }

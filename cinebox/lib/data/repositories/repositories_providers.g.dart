@@ -45,7 +45,7 @@ final class AuthRepositoryProvider
   }
 }
 
-String _$authRepositoryHash() => r'88d64dcd24394f6f3dfb41838812c21898929d0c';
+String _$authRepositoryHash() => r'bc3858cb491749cf06206d3f6a10946b68f0efb8';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
