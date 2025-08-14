@@ -25,9 +25,9 @@ class _GenresBoxState extends ConsumerState<GenresBox> {
           return InkWell(
             borderRadius: BorderRadius.circular(20),
             onTap: (){
-              selectedGenre.value == index ;
-              print(selectedGenre.value) ;
-              print(index) ;
+              setState(() {
+                selectedGenre.value == index ;
+              });
             }  ,
             child: ValueListenableBuilder(
               valueListenable: selectedGenre,
