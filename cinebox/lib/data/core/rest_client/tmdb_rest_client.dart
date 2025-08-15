@@ -20,7 +20,7 @@ Dio tmdbRestClient(Ref ref) {
     LogInterceptor(
       request: true,
       requestHeader: true ,
-      requestBody: true,
+     // requestBody: true,
       responseBody: true ,
       error: true ,
     )
