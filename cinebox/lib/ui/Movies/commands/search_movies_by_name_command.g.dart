@@ -40,7 +40,7 @@ final class SearchMoviesByNameCommandProvider
 }
 
 String _$searchMoviesByNameCommandHash() =>
-    r'682f0241c7035e078e891872b57a1b4b96c819ca';
+    r'3b9cf6c7d40cd341ee7feaceccf9eaf79a477e24';
 
 abstract class _$SearchMoviesByNameCommand
     extends $Notifier<AsyncValue<List<Movie>>> {

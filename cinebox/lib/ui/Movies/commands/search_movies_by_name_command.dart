@@ -12,7 +12,6 @@ class SearchMoviesByNameCommand extends _$SearchMoviesByNameCommand {
   AsyncValue<List<Movie>> build() => AsyncLoading();
 
   Future<void> execute(String name) async {
-    print('BUSCA: $name') ;
     state = AsyncLoading();
     final searchMovieUC = ref.read(getMoviesByNameUsecaseProvider);
     final result = await searchMovieUC.execute(name: name);
