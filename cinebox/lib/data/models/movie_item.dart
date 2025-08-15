@@ -10,7 +10,7 @@ class MovieItem {
   final List<int>? genreIds;
   final String? posterPath;
   final String? backdropPath;
-  final double voteAvarage;
+  final double voteAverage;
   final String? releaseDate;
 
   MovieItem({
@@ -20,7 +20,7 @@ class MovieItem {
     this.genreIds,
     this.posterPath,
     this.backdropPath,
-    required this.voteAvarage,
+    required this.voteAverage,
     this.releaseDate,
   });
 
