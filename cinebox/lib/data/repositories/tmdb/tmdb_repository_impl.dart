@@ -114,4 +114,16 @@ class TmdbRepositoryImpl implements TmdbRepository {
       return  Failure(DataException(message: 'Erro ao buscar filmes por gênero')) ;
     }
   }
+
+  @override
+  Future<Result<List<Movie>>> searchMovies({required String query}) async {
+    try {
+      final data = await _tmdbService.searchMovies(query: query);
+
+      return Success(MovieMappers.mapToMovies(data)) ;
+    } on DioException catch (e,s) {
+      log('ERRO ao buscar filmes por nome.',error: e,stackTrace: s) ;
+      return  Failure(DataException(message: 'Erro ao buscar filmes por nome')) ;
+    }
+  }
 }
