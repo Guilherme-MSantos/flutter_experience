@@ -2,7 +2,7 @@
 import 'package:cinebox/data/models/genre_response.dart';
 import 'package:cinebox/data/models/movie_details_response.dart';
 import 'package:cinebox/data/models/movie_response.dart';
-import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
 part 'tmdb_service.g.dart';
@@ -53,9 +53,9 @@ Future<MovieResponse> discoverMovies({
 }) ;
 
 @GET('/movie/{movie_id}?include_image_language=pt,null')
-Future<MovieDetailsResponse> getMoviesDetails({
+Future<MovieDetailsResponse> getMoviesDetails(
+    @Path('movie_id') int movieId ,{
   @Query('language') String language = 'pt-BR',
-  @Path('movie_id') int movieId ,
   @Query('append_to_response') String appendToResponse = ''
 }) ;
 }

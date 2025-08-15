@@ -250,9 +250,9 @@ class _TmdbService implements TmdbService {
   }
 
   @override
-  Future<MovieDetailsResponse> getMoviesDetails({
+  Future<MovieDetailsResponse> getMoviesDetails(
+    int movieId, {
     String language = 'pt-BR',
-    int movieId,
     String appendToResponse = '',
   }) async {
     final _extra = <String, dynamic>{};
