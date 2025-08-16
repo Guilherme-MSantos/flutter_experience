@@ -1,6 +1,7 @@
 import 'package:cinebox/domain/models/favorite_movie.dart';
 import 'package:cinebox/ui/Favorites/commands/get_favorites_command.dart';
 import 'package:cinebox/ui/Favorites/favorites_view_model.dart';
+import 'package:cinebox/ui/core/widgets/loader_messages.dart';
 import 'package:cinebox/ui/core/widgets/movie_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +13,7 @@ class FavoriteScreen extends ConsumerStatefulWidget {
   ConsumerState<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
+class _FavoriteScreenState extends ConsumerState<FavoriteScreen> with LoaderAndMessage {
   @override
   void initState() {
     super.initState();
@@ -68,6 +69,11 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                           year: year,
                           imageUrl: imageUrl,
                           isFavorite: true,
+                          onFavoriteTap: () async{
+                            showLoader() ;
+                           await ref.read(favoritesViewModelProvider).deleteFavoriteMovie(id) ;
+                           hideLoader() ;
+                          } ,
                         ),
                       );
                     },
