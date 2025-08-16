@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinebox/ui/core/commands/favorite_movie_command.dart';
+import 'package:cinebox/ui/core/commands/remove_favorite_movie_command.dart';
 import 'package:cinebox/ui/core/commands/save_favorite_movie_command.dart';
 import 'package:cinebox/ui/core/themes/colors.dart';
 import 'package:cinebox/ui/core/widgets/loader_messages.dart';
@@ -49,16 +50,34 @@ class _MovieCardState extends ConsumerState<MovieCard> with LoaderAndMessage {
   Widget build(BuildContext context) {
     final isFavorite = ref.watch(favoriteMovieCommandProvider(widget.id));
 
-    ref.listen(saveFavoriteMovieCommandProvider(widget.key!, widget.id), (
-      _,
-      next,
-    ) {
-      next.whenOrNull(
-        error: (error, stackTrace) {
-          showErrorSnackBar('Falha ao adicionar favortos');
-        },
-      );
-    });
+    ref.listen(
+      saveFavoriteMovieCommandProvider(widget.key!, widget.id),
+      (
+        _,
+        next,
+      ) {
+        next.whenOrNull(
+          error: (error, stackTrace) {
+            showErrorSnackBar('Falha ao adicionar favortos');
+          },
+        );
+      },
+    );
+
+    ref.listen(
+      removeFavoriteMovieCommandProvider(widget.key!, widget.id),
+      (
+        _,
+        next,
+      ) {
+        next.whenOrNull(
+          error: (error, stackTrace) {
+            showErrorSnackBar('Falha ao remover favorito');
+          },
+        );
+      },
+    );
+
     return Stack(
       children: [
         SizedBox(
