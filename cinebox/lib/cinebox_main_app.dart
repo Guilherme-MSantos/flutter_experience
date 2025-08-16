@@ -19,6 +19,7 @@ class CineboxMainApp extends StatelessWidget {
         '/': (_)=> SplashScreen() ,
        '/login': (_)=> LoginScreen(),
        '/home':(_)=> HomeScreen(),
+
      },
     );
   }
