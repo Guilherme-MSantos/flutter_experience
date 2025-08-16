@@ -1,7 +1,9 @@
+import 'package:cinebox/cinebox_main_app.dart';
 import 'package:cinebox/config/env.dart';
 import 'package:cinebox/core/result/result.dart';
 import 'package:cinebox/data/services/services_providers.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'backend_rest_client.g.dart';
@@ -20,6 +22,16 @@ if(idTokenResult case Success(value:final idToken)){
   options.headers['Authorization'] = 'Bearer $idToken' ;
 }
 handler.next(options) ;
+  }
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler){
+final DioException(:response) = err ;
+if(response?.statusCode == 401){
+  final localStorage = ref.read(localStorageServiceProvider);
+  localStorage.removeIdToken() ;
+  //Navegar para o login
+  Navigator.of(navKey.currentContext!).pushNamedAndRemoveUntil('/login', (_)=> false) ;
+}
   }
 }
 
