@@ -16,7 +16,7 @@ class CineboxMainApp extends StatelessWidget {
      theme: AppTheme.theme,
      navigatorKey: navKey,
      routes: {
-        '/': (_)=> SplashScreen() ,
+        '/': (_)=> LoginScreen() ,
        '/login': (_)=> LoginScreen(),
        '/home':(_)=> HomeScreen(),
 
