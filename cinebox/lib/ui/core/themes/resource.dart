@@ -41,4 +41,7 @@ class R {
   /// ![preview](file://C:\Users\Origam Dev\Desktop\layouts\flutter_experience\cinebox\assets\images\small_banner.png)
   static const String ASSETS_IMAGES_SMALL_BANNER_PNG =
       'assets/images/small_banner.png';
+
+  static const String ASSETS_IMAGES_NO_IMG_PNG =
+      'assets/images/no-image.png';
 }

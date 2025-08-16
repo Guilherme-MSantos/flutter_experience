@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinebox/ui/Movie_Details/widgets/cast_box.dart';
+import 'package:cinebox/ui/Movie_Details/widgets/movie_trailer.dart';
+import 'package:cinebox/ui/Movie_Details/widgets/rating_panel.dart';
 import 'package:cinebox/ui/core/themes/colors.dart';
 import 'package:cinebox/ui/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +81,9 @@ class _MovieDetailsScreenState extends ConsumerState<MovieDetailsScreen> {
                     style: AppTextStyles.regularSmall,
                   ),
                   CastBox() ,
+                  MovieTrailer(),
+                  SizedBox(height: 30),
+                  RatingPanel(voteAverage: 4.5, voteCount: 5000)
                 ],
               ),
             ),
