@@ -1,5 +1,6 @@
 import 'package:cinebox/ui/Home/home_screen.dart';
 import 'package:cinebox/ui/Login/login_screen.dart';
+import 'package:cinebox/ui/Movie_Details/movie_details_screen.dart';
 import 'package:cinebox/ui/core/themes/theme.dart';
 import 'package:cinebox/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class CineboxMainApp extends StatelessWidget {
         '/': (_)=> LoginScreen() ,
        '/login': (_)=> LoginScreen(),
        '/home':(_)=> HomeScreen(),
-
+        '/movie_details' : (_)=>  MovieDetailsScreen(),
      },
     );
   }
