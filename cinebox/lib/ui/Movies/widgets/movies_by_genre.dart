@@ -19,6 +19,7 @@ class MoviesByGenre extends ConsumerWidget {
         return Container(
           margin: EdgeInsets.only(bottom: 130),
           child: MoviesBox(
+            key: UniqueKey(),
             title: 'Filmes Encontrados busca',
             vertical: true,
             movies: data,
