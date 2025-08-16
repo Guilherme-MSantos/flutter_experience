@@ -32,6 +32,7 @@ if(response?.statusCode == 401){
   //Navegar para o login
   Navigator.of(navKey.currentContext!).pushNamedAndRemoveUntil('/login', (_)=> false) ;
 }
+handler.reject(err) ;
   }
 }
 

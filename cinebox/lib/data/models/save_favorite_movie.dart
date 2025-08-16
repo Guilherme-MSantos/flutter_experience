@@ -5,7 +5,7 @@ part 'save_favorite_movie.g.dart';
 class SaveFavoriteMovie {
   final int movieId;
 
-  final String postUrl;
+  final String posterUrl;
 
   final String title;
 
@@ -13,7 +13,7 @@ class SaveFavoriteMovie {
 
   SaveFavoriteMovie({
     required this.movieId,
-    required this.postUrl,
+    required this.posterUrl,
     required this.title,
     required this.year,
   });

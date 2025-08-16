@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinebox/ui/core/commands/favorite_movie_command.dart';
+import 'package:cinebox/ui/core/commands/save_favorite_movie_command.dart';
 import 'package:cinebox/ui/core/themes/colors.dart';
+import 'package:cinebox/ui/core/widgets/loader_messages.dart';
+import 'package:cinebox/ui/core/widgets/movie_card_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,11 +22,11 @@ class MovieCard extends ConsumerStatefulWidget {
 
   const MovieCard({
     super.key,
-   required  this.id,
-   required  this.title,
-   required  this.year,
-   required  this.imageUrl,
-   required  this.isFavorite,
+    required this.id,
+    required this.title,
+    required this.year,
+    required this.imageUrl,
+    required this.isFavorite,
     this.onFavoriteTap,
   });
 
@@ -31,19 +34,31 @@ class MovieCard extends ConsumerStatefulWidget {
   ConsumerState<MovieCard> createState() => _MovieCardState();
 }
 
-class _MovieCardState extends ConsumerState<MovieCard> {
-
+class _MovieCardState extends ConsumerState<MovieCard> with LoaderAndMessage {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-ref.read(favoriteMovieCommandProvider(widget.id).notifier).setFavorite(widget.isFavorite);
-    }) ;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(favoriteMovieCommandProvider(widget.id).notifier)
+          .setFavorite(widget.isFavorite);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final isFavorite = ref.watch(favoriteMovieCommandProvider(widget.id)) ;
+    final isFavorite = ref.watch(favoriteMovieCommandProvider(widget.id));
+
+    ref.listen(saveFavoriteMovieCommandProvider(widget.key!, widget.id), (
+      _,
+      next,
+    ) {
+      next.whenOrNull(
+        error: (error, stackTrace) {
+          showErrorSnackBar('Falha ao adicionar favortos');
+        },
+      );
+    });
     return Stack(
       children: [
         SizedBox(
@@ -55,8 +70,7 @@ ref.read(favoriteMovieCommandProvider(widget.id).notifier).setFavorite(widget.is
               CachedNetworkImage(
                 width: 148,
                 height: 184,
-                imageUrl:
-                    widget.imageUrl,
+                imageUrl: widget.imageUrl,
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     width: 148,
@@ -90,7 +104,7 @@ ref.read(favoriteMovieCommandProvider(widget.id).notifier).setFavorite(widget.is
               ),
               SizedBox(height: 30),
               Text(
-               widget.title,
+                widget.title,
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -116,10 +130,25 @@ ref.read(favoriteMovieCommandProvider(widget.id).notifier).setFavorite(widget.is
               radius: 20,
               backgroundColor: Colors.white,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  ref
+                      .read(
+                        movieCardViewModelProvider(
+                          widget.key!,
+                          widget.id,
+                        ).notifier,
+                      )
+                      .addOrRemoveFavorite(
+                        id: widget.id,
+                        title: widget.title,
+                        posterPath: widget.imageUrl,
+                        year: widget.year,
+                        favorite: !isFavorite,
+                      );
+                },
                 icon: Icon(
-                  isFavorite ?Icons.favorite: Icons.favorite_border,
-                  color: isFavorite ?AppColors.redColor : AppColors.lightGrey ,
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? AppColors.redColor : AppColors.lightGrey,
                   size: 16,
                 ),
               ),
