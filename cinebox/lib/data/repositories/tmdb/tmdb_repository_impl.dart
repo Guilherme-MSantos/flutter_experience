@@ -4,9 +4,11 @@ import 'package:cinebox/core/result/result.dart';
 import 'package:cinebox/data/exception/data_exception.dart';
 import 'package:cinebox/data/mappers/movie_mappers.dart';
 import 'package:cinebox/data/services/tmdb/tmdb_service.dart';
+import 'package:cinebox/domain/models/cast.dart';
 import 'package:cinebox/domain/models/genre.dart';
 
 import 'package:cinebox/domain/models/movie.dart';
+import 'package:cinebox/domain/models/movie_detail.dart';
 
 import './tmdb_repository.dart';
 
@@ -21,25 +23,27 @@ class TmdbRepositoryImpl implements TmdbRepository {
   @override
   Future<Result<List<Movie>>> getPopularMovies({
     String language = 'pt-BR',
-    int page = 1
+    int page = 1,
   }) async {
     try {
       final moviesData = await _tmdbService.getPopularMovies(
         language: language,
         page: page,
       );
-      
-      return Success(MovieMappers.mapToMovies(moviesData)) ;
-    } on DioException catch (e,s) {
-     log('ERRO ao buscar getPopularMovies',error: e , stackTrace: s) ;
-     return Failure(DataException(message: 'Erro ao buscar os filmes  populares'));
+
+      return Success(MovieMappers.mapToMovies(moviesData));
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar getPopularMovies', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar os filmes  populares'),
+      );
     }
   }
 
   @override
   Future<Result<List<Movie>>> getTopRatedMovies({
     String language = 'pt-BR',
-    int page = 1
+    int page = 1,
   }) async {
     try {
       final moviesData = await _tmdbService.getTopRatedMovies(
@@ -47,17 +51,19 @@ class TmdbRepositoryImpl implements TmdbRepository {
         page: page,
       );
 
-      return Success(MovieMappers.mapToMovies(moviesData)) ;
-    } on DioException catch (e,s) {
-      log('ERRO ao buscar getTopRatedMovies',error: e , stackTrace: s) ;
-      return Failure(DataException(message: 'Erro ao buscar os filmes  mais bem votados'));
+      return Success(MovieMappers.mapToMovies(moviesData));
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar getTopRatedMovies', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar os filmes  mais bem votados'),
+      );
     }
   }
 
   @override
   Future<Result<List<Movie>>> getNowPlayingMovies({
     String language = 'pt-BR',
-    int page = 1
+    int page = 1,
   }) async {
     try {
       final moviesData = await _tmdbService.getNowPlayingMovies(
@@ -65,17 +71,19 @@ class TmdbRepositoryImpl implements TmdbRepository {
         page: page,
       );
 
-      return Success(MovieMappers.mapToMovies(moviesData)) ;
-    } on DioException catch (e,s) {
-      log('ERRO ao buscar getNowPlayingMovies',error: e , stackTrace: s) ;
-      return Failure(DataException(message: 'Erro ao buscar os filmes  em cartaz'));
+      return Success(MovieMappers.mapToMovies(moviesData));
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar getNowPlayingMovies', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar os filmes  em cartaz'),
+      );
     }
   }
 
   @override
   Future<Result<List<Movie>>> getUpComingMovies({
     String language = 'pt-BR',
-    int page = 1
+    int page = 1,
   }) async {
     try {
       final moviesData = await _tmdbService.getUpcomingMovies(
@@ -83,35 +91,45 @@ class TmdbRepositoryImpl implements TmdbRepository {
         page: page,
       );
 
-      return Success(MovieMappers.mapToMovies(moviesData)) ;
-    } on DioException catch (e,s) {
-      log('ERRO ao buscar getUpcomingMovies',error: e , stackTrace: s) ;
-      return Failure(DataException(message: 'Erro ao buscar os filmes  que virão'));
+      return Success(MovieMappers.mapToMovies(moviesData));
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar getUpcomingMovies', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar os filmes  que virão'),
+      );
     }
   }
 
   @override
   Future<Result<List<Genre>>> getGenres() async {
-  try {
-    final data = await _tmdbService.getMoviesGenres() ;
-    final genres = data.genres.map((g)=> Genre(id: g.id, name: g.name)).toList();
-    
-    return Success(genres) ; 
-  } on DioException catch (e,s) {
-    log('ERRO ao buscar gênero.',error: e,stackTrace: s) ;
-    return  Failure(DataException(message: 'Erro ao buscar gêneros de filmes')) ;
-  }
+    try {
+      final data = await _tmdbService.getMoviesGenres();
+      final genres = data.genres
+          .map((g) => Genre(id: g.id, name: g.name))
+          .toList();
+
+      return Success(genres);
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar gênero.', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar gêneros de filmes'),
+      );
+    }
   }
 
   @override
   Future<Result<List<Movie>>> getMoviesByGenres({required int genreId}) async {
     try {
-      final data = await _tmdbService.discoverMovies(withGenres: genreId.toString());
+      final data = await _tmdbService.discoverMovies(
+        withGenres: genreId.toString(),
+      );
 
-      return Success(MovieMappers.mapToMovies(data)) ;
-    } on DioException catch (e,s) {
-      log('ERRO ao buscar filmes por gênero.',error: e,stackTrace: s) ;
-      return  Failure(DataException(message: 'Erro ao buscar filmes por gênero')) ;
+      return Success(MovieMappers.mapToMovies(data));
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar filmes por gênero.', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar filmes por gênero'),
+      );
     }
   }
 
@@ -120,10 +138,48 @@ class TmdbRepositoryImpl implements TmdbRepository {
     try {
       final data = await _tmdbService.searchMovies(query: query);
 
-      return Success(MovieMappers.mapToMovies(data)) ;
-    } on DioException catch (e,s) {
-      log('ERRO ao buscar filmes por nome.',error: e,stackTrace: s) ;
-      return  Failure(DataException(message: 'Erro ao buscar filmes por nome')) ;
+      return Success(MovieMappers.mapToMovies(data));
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar filmes por nome.', error: e, stackTrace: s);
+      return Failure(DataException(message: 'Erro ao buscar filmes por nome'));
+    }
+  }
+
+  @override
+  Future<Result<MovieDetail>> getMovieDetail({required int movieId}) async {
+    try {
+      final response = await _tmdbService.getMoviesDetails(
+        movieId,
+        appendToResponse: 'credits,videos,recommendations,release_dates,images',
+      );
+      final movieDetail = MovieDetail(
+        title: response.title,
+        overview: response.overview,
+        releaseDate: response.releaseDate,
+        runtime: response.runtime,
+        voteAverage: response.voteAverage,
+        voteCount: response.voteCount,
+        images: response.images.backdrops
+            .map(
+              (i) => "https://image.tmdb.org/t/p/w342/${i.filePath}",
+            )
+            .toList(),
+        cast: response.credits.cast
+            .map(
+              (c) => Cast(
+                name: c.name,
+                character: c.character,
+                profilePath: c.profilePath,
+              ),
+            )
+            .toList(),
+        genres: response.genres.map((g)=> Genre(id: g.id, name: g.name)).toList(),
+        videos: response.videos.results.map((v)=>v.key).toList(),
+      );
+      return Success(movieDetail);
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar detalhes do filme', error: e, stackTrace: s);
+      return Failure(DataException(message: 'ERRO ao buscar detalhes do filme'));
     }
   }
 }
