@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cinebox/core/result/result.dart';
 import 'package:cinebox/data/exception/data_exception.dart';
+import 'package:cinebox/data/models/save_favorite_movie.dart';
 import 'package:cinebox/data/repositories/movies/movies_repository.dart';
 import 'package:cinebox/data/services/movies/movies_service.dart';
 import 'package:cinebox/domain/models/favorite_movie.dart';
@@ -17,20 +18,52 @@ class MoviesRepositoryImpl implements MoviesRepository {
   Future<Result<List<FavoriteMovie>>> getMyFavoritesMovies() async {
     try {
       final response = await _moviesService.getMyFavoriteMovies();
-      final favorites = response.map(
-        (f) => FavoriteMovie(
-          id: f.movieId,
-          posterPath: f.posterUrl,
-          title: f.title,
-          year: f.year,
-        ),
-      ).toList();
-      
-      return Success(favorites);
-    } on DioException catch (e,s) {
-      log('ERRO ao buscar filmes  favoritados',error: e , stackTrace: s) ;
-      return Failure(DataException(message: 'Erro ao buscar os filmes  favoritados'));
+      final favorites = response
+          .map(
+            (f) => FavoriteMovie(
+              id: f.movieId,
+              posterPath: f.posterUrl,
+              title: f.title,
+              year: f.year,
+            ),
+          )
+          .toList();
 
+      return Success(favorites);
+    } on DioException catch (e, s) {
+      log('ERRO ao buscar filmes  favoritados', error: e, stackTrace: s);
+      return Failure(
+        DataException(message: 'Erro ao buscar os filmes  favoritados'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<Unit>> deleteFavoriteMovie(int movieId) async {
+    try {
+      await _moviesService.deleteFavoriteMovie(movieId);
+      return successOfUnit();
+    } on DioException catch (e, s) {
+      log('ERRO ao deletar favorito', error: e, stackTrace: s);
+      return Failure(DataException(message: 'Erro ao deletar favorito'));
+    }
+  }
+
+  @override
+  Future<Result<Unit>> saveFavoriteMovie(FavoriteMovie favoriteMovie) async {
+    try {
+      await _moviesService.saveFavoriteMovie(
+        SaveFavoriteMovie(
+          movieId: favoriteMovie.id,
+          postUrl: favoriteMovie.posterPath,
+          title: favoriteMovie.title,
+          year: favoriteMovie.year,
+        ),
+      );
+      return successOfUnit() ;
+    } on DioException catch (e,s) {
+      log('ERRO ao salvar filme no favorito', error: e, stackTrace: s);
+      return Failure(DataException(message: 'ERRO ao salvar filme no favorito'));
     }
   }
 }
