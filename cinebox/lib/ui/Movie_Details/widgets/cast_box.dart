@@ -1,10 +1,12 @@
+import 'package:cinebox/domain/models/movie_detail.dart';
 import 'package:cinebox/ui/Movie_Details/widgets/actor_card.dart';
 import 'package:cinebox/ui/core/themes/colors.dart';
 import 'package:cinebox/ui/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CastBox extends StatelessWidget {
-  const CastBox({super.key});
+  final MovieDetail movieDetail ;
+  const CastBox({super.key, required this.movieDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +26,14 @@ class CastBox extends StatelessWidget {
           SizedBox(
             height: 150,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: movieDetail.cast.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (ctx, index) {
+                final actor = movieDetail.cast[index] ;
                 return ActorCard(
-                  imageUrl:  'https://m.media-amazon.com/images/M/MV5BNDA3ODNhZTItY2QzNy00MmJlLTg0ZDMtNWI5MmJlZDZjZmQzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
-                    character: 'teste',
-                  name: 'teste',
+                  imageUrl:  'https://image.tmdb.org/t/p/w185/${actor.profilePath}',
+                    character: actor.character,
+                  name: actor.name,
                 );
               },
             ),

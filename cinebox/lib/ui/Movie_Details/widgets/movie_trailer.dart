@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieTrailer extends StatefulWidget {
-  const MovieTrailer({super.key});
+  final String videoId ;
+  const MovieTrailer({super.key, required this.videoId});
 
   @override
   State<MovieTrailer> createState() => _MovieTrailerState();
@@ -18,7 +19,7 @@ class _MovieTrailerState extends State<MovieTrailer> {
     // TODO: implement initState
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'GWdh-fujOb8',
+      initialVideoId: widget.videoId,
       flags: YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
@@ -53,7 +54,7 @@ class _MovieTrailerState extends State<MovieTrailer> {
                   children: [
                     Image.network(
                       YoutubePlayer.getThumbnail(
-                        videoId: 'GWdh-fujOb8',
+                        videoId: widget.videoId,
                         quality: ThumbnailQuality.medium,
                       ),
                       fit: BoxFit.cover,
